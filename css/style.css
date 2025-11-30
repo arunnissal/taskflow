@@ -49,6 +49,8 @@ body {
   flex-direction: column;
 }
 
+/* HEADER */
+
 .app-header {
   display: flex;
   align-items: center;
@@ -212,6 +214,8 @@ body.dark-mode .app-header {
   background: var(--bg-soft);
 }
 
+/* LAYOUT */
+
 .app-main {
   flex: 1;
   display: grid;
@@ -219,6 +223,8 @@ body.dark-mode .app-header {
   gap: 14px;
   padding: 14px 16px 18px;
 }
+
+/* SIDEBAR */
 
 .sidebar {
   background: var(--bg-elevated);
@@ -240,6 +246,39 @@ body.dark-mode .app-header {
   font-size: var(--font-xs);
   font-weight: 600;
   color: var(--text-muted);
+}
+
+/* filter header / collapse */
+
+.sidebar-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-toggle-btn {
+  border: none;
+  background: var(--bg-soft);
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sidebar-filter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-filter-body.collapsed {
+  display: none;
 }
 
 .input {
@@ -312,6 +351,8 @@ body.dark-mode .app-header {
   transform: scale(1.05);
 }
 
+/* BOARD & STATS */
+
 .board {
   background: var(--bg-elevated);
   border-radius: var(--radius-lg);
@@ -362,6 +403,8 @@ body.dark-mode .stat-card {
   font-size: 16px;
   font-weight: 600;
 }
+
+/* COLUMNS */
 
 .columns {
   display: grid;
@@ -419,6 +462,8 @@ body.dark-mode .column[data-status="completed"] {
 .column-body.drag-over {
   outline: 2px dashed var(--accent);
 }
+
+/* TASK CARD */
 
 .task-card {
   background: #ffffff;
@@ -498,6 +543,8 @@ body.dark-mode .task-card {
   font-size: 14px;
 }
 
+/* MODAL */
+
 .modal {
   position: fixed;
   inset: 0;
@@ -558,7 +605,7 @@ body.dark-mode .task-card {
   gap: 8px;
 }
 
-/* responsive */
+/* RESPONSIVE */
 
 @media (max-width: 900px) {
   .app-main {
@@ -566,38 +613,57 @@ body.dark-mode .task-card {
     padding: 10px 10px 14px;
     gap: 10px;
   }
+
   .sidebar {
     order: 2;
   }
+
   .board {
     order: 1;
   }
+
   .columns {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar-filter-header {
+    padding: 6px 8px;
+    border-radius: 10px;
+    background: var(--bg-soft);
+  }
+
+  .sidebar-filter-body {
+    margin-top: 6px;
+    padding: 8px 8px 10px;
+    border-radius: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
   }
 }
 
 @media (max-width: 640px) {
   .app-header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px 14px;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "left right"
+      "center center";
+    align-items: center;
+    gap: 6px;
   }
 
   .header-left {
-    width: 100%;
-    align-items: center;
-  }
-
-  .header-center {
-    width: 100%;
-    text-align: left;
+    grid-area: left;
   }
 
   .header-right {
-    width: 100%;
+    grid-area: right;
     justify-content: flex-end;
+  }
+
+  .header-center {
+    grid-area: center;
+    text-align: left;
   }
 
   .logo-text h1 {
@@ -622,53 +688,5 @@ body.dark-mode .task-card {
 
   .form-row {
     grid-template-columns: 1fr;
-  }
-}
-.sidebar-filter-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.filter-toggle-btn {
-  border: none;
-  background: var(--bg-soft);
-  border-radius: 999px;
-  width: 26px;
-  height: 26px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  cursor: pointer;
-}
-
-.sidebar-filter-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* when collapsed */
-.sidebar-filter-body.collapsed {
-  display: none;
-}
-
-/* mobile – show more card-like */
-@media (max-width: 900px) {
-  .sidebar-filter-header {
-    padding: 6px 8px;
-    border-radius: 10px;
-    background: var(--bg-soft);
-  }
-
-  .sidebar-filter-body {
-    margin-top: 6px;
-    padding: 8px 8px 10px;
-    border-radius: 12px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
   }
 }

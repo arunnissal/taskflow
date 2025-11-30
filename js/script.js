@@ -404,11 +404,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initFilterCollapse() {
     if (!filterBody || !filterToggle) return;
-    if (window.innerWidth <= 900) {
-      filterBody.classList.add("collapsed");
+
+    const isMobile = window.innerWidth <= 900;
+
+    if (isMobile) {
+      if (!filterBody.classList.contains("collapsed")) {
+        filterBody.classList.add("collapsed");
+      }
+      filterToggle.textContent = "▾";
       filterToggle.setAttribute("aria-expanded", "false");
     } else {
       filterBody.classList.remove("collapsed");
+      filterToggle.textContent = "▾";
       filterToggle.setAttribute("aria-expanded", "true");
     }
   }
@@ -416,18 +423,27 @@ document.addEventListener("DOMContentLoaded", () => {
   if (filterToggle && filterBody) {
     const toggleFn = () => {
       const collapsed = filterBody.classList.toggle("collapsed");
-      filterToggle.setAttribute("aria-expanded", (!collapsed).toString());
+      if (collapsed) {
+        filterToggle.textContent = "▾";
+        filterToggle.setAttribute("aria-expanded", "false");
+      } else {
+        filterToggle.textContent = "▴";
+        filterToggle.setAttribute("aria-expanded", "true");
+      }
     };
+
     filterToggle.addEventListener("click", (e) => {
       e.stopPropagation();
       toggleFn();
     });
+
     if (filterHeader) {
       filterHeader.addEventListener("click", (e) => {
         if (e.target === filterToggle) return;
         toggleFn();
       });
     }
+
     window.addEventListener("resize", initFilterCollapse);
   }
 
