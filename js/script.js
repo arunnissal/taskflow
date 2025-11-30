@@ -56,6 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const avatarName = document.getElementById("avatarName");
   const avatarMenuSetName = document.getElementById("avatarMenuSetName");
 
+  const filterToggle = document.getElementById("filterToggle");
+  const filterBody = document.getElementById("filterBody");
+  const filterHeader = document.querySelector(".sidebar-filter-header");
+
   function formatDate(dateString) {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -398,6 +402,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  function initFilterCollapse() {
+    if (!filterBody || !filterToggle) return;
+    if (window.innerWidth <= 900) {
+      filterBody.classList.add("collapsed");
+      filterToggle.setAttribute("aria-expanded", "false");
+    } else {
+      filterBody.classList.remove("collapsed");
+      filterToggle.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  if (filterToggle && filterBody) {
+    const toggleFn = () => {
+      const collapsed = filterBody.classList.toggle("collapsed");
+      filterToggle.setAttribute("aria-expanded", (!collapsed).toString());
+    };
+    filterToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleFn();
+    });
+    if (filterHeader) {
+      filterHeader.addEventListener("click", (e) => {
+        if (e.target === filterToggle) return;
+        toggleFn();
+      });
+    }
+    window.addEventListener("resize", initFilterCollapse);
+  }
+
   searchInput.addEventListener("input", handleSearchInput);
   priorityFilters.addEventListener("click", handlePriorityClick);
 
@@ -465,4 +498,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadName();
   loadTasks();
   renderTasks();
+  initFilterCollapse();
 });

@@ -558,6 +558,8 @@ body.dark-mode .task-card {
   gap: 8px;
 }
 
+/* responsive */
+
 @media (max-width: 900px) {
   .app-main {
     grid-template-columns: 1fr;
@@ -578,21 +580,95 @@ body.dark-mode .task-card {
 @media (max-width: 640px) {
   .app-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    align-items: stretch;
+    padding: 12px 14px;
+    gap: 10px;
   }
+
+  .header-left {
+    width: 100%;
+    align-items: center;
+  }
+
   .header-center {
+    width: 100%;
     text-align: left;
   }
+
   .header-right {
-    align-self: stretch;
+    width: 100%;
     justify-content: flex-end;
   }
+
+  .logo-text h1 {
+    font-size: 15px;
+  }
+
+  .tagline,
+  .current-date {
+    font-size: 11px;
+  }
+
+  .icon-button,
+  .avatar-circle {
+    width: 34px;
+    height: 34px;
+  }
+
   .board-header {
     flex-direction: row;
     align-items: center;
   }
+
   .form-row {
     grid-template-columns: 1fr;
+  }
+}
+.sidebar-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-toggle-btn {
+  border: none;
+  background: var(--bg-soft);
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sidebar-filter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* when collapsed */
+.sidebar-filter-body.collapsed {
+  display: none;
+}
+
+/* mobile – show more card-like */
+@media (max-width: 900px) {
+  .sidebar-filter-header {
+    padding: 6px 8px;
+    border-radius: 10px;
+    background: var(--bg-soft);
+  }
+
+  .sidebar-filter-body {
+    margin-top: 6px;
+    padding: 8px 8px 10px;
+    border-radius: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
   }
 }
