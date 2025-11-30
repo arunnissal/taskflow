@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TaskFlow</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet" />
+    </head>
+    <body>
+        <div class="app">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <div class="logo-circle">TF</div>
+                    <div class="logo-text">
+                        <h1>TaskFlow</h1>
+                        <p>Task Management dashboard</p>
+                    </div>
+                </div>
+                <div class="header-center">
+                    <p class="tagline">Stay organized, stay focused.</p>
+                    <p id="currentDate" class="current-date"></p>
+                </div>
+                <div class="header-right">
+                    <button id="themeToggle" class="icon-button"
+                        aria-label="Toggle theme">
+                        <span class="theme-icon" id="themeIcon">🌙</span>
+                    </button>
+
+                    <div class="avatar-wrapper">
+                        <button id="avatarToggle" class="avatar-circle">
+                            <span id="avatarInitial">A</span>
+                        </button>
+
+                        <div id="avatarMenu" class="avatar-menu hidden">
+                            <div class="avatar-menu-header">
+                                <div class="avatar-menu-initial"
+                                    id="avatarMenuInitial">A</div>
+                                <div>
+                                    <p class="avatar-name"
+                                        id="avatarName">User</p>
+                                    <p class="avatar-role">TaskFlow user</p>
+                                </div>
+                            </div>
+                            <button type="button" class="avatar-menu-item"
+                                id="avatarMenuSetName">
+                                Set display name
+                            </button>
+                            <button type="button" class="avatar-menu-item"
+                                id="avatarMenuTheme">
+                                Toggle theme
+                            </button>
+                            <button type="button" class="avatar-menu-item"
+                                id="avatarMenuClear">
+                                Clear all tasks
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+
+            <!--Main-->
+            <main class="app-main">
+                <aside class="sidebar">
+                    <div class="sidebar-section">
+                        <label for="searchInput"
+                            class="section-label">Search</label>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="input"
+                            placeholder="Search tasks..." />
+                    </div>
+
+                    <div class="sidebar-section">
+                        <p class="section-label">Priority</p>
+                        <div class="chip-group" id="priorityFilters">
+                            <button class="chip chip-active"
+                                data-priority="all">All</button>
+                            <button class="chip"
+                                data-priority="high">High</button>
+                            <button class="chip"
+                                data-priority="medium">Medium</button>
+                            <button class="chip"
+                                data-priority="low">Low</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <button id="addTaskSidebar"
+                            class="btn btn-primary full-width">
+                            + Add Task
+                        </button>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <button id="clearAllBtn"
+                            class="btn btn-danger full-width">
+                            Clear all tasks
+                        </button>
+                    </div>
+                </aside>
+
+                <section class="board">
+                    <div class="board-header">
+                        <h2>Tasks</h2>
+                        <button id="addTaskMain" class="btn btn-primary">
+                            + New Task
+                        </button>
+                    </div>
+
+                    <div class="board-stats">
+                        <div class="stat-card">
+                            <p class="stat-label">Total tasks</p>
+                            <p class="stat-value" id="statTotal">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-label">Completed</p>
+                            <p class="stat-value" id="statCompleted">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-label">Completion</p>
+                            <p class="stat-value" id="statPercent">0%</p>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <!-- To Do Column -->
+                        <div class="column" data-status="todo">
+                            <div class="column-header">
+                                <h3>To Do</h3>
+                                <span class="count-badge"
+                                    id="count-todo">0</span>
+                            </div>
+                            <div class="column-body" id="todoColumn"></div>
+                        </div>
+
+                        <!-- In Progress Column -->
+                        <div class="column" data-status="in-progress">
+                            <div class="column-header">
+                                <h3>In Progress</h3>
+                                <span class="count-badge"
+                                    id="count-in-progress">0</span>
+                            </div>
+                            <div class="column-body"
+                                id="inProgressColumn"></div>
+                        </div>
+
+                        <!-- Completed Column -->
+                        <div class="column" data-status="completed">
+                            <div class="column-header">
+                                <h3>Completed</h3>
+                                <span class="count-badge"
+                                    id="count-completed">0</span>
+                            </div>
+                            <div class="column-body" id="completedColumn"></div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <div id="taskModal" class="modal hidden">
+                <div class="modal-backdrop" id="modalBackdrop"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modalTitle">Add Task</h2>
+                        <button id="closeModalBtn"
+                            class="icon-button close-button">
+                            &times;
+                        </button>
+                    </div>
+                    <form id="taskForm" class="modal-body">
+                        <input type="hidden" id="taskId" />
+
+                        <div class="form-group">
+                            <label for="taskTitle">Title <span
+                                    class="required">*</span></label>
+                            <input
+                                type="text"
+                                id="taskTitle"
+                                class="input"
+                                placeholder="Enter task title"
+                                required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskDescription">Description</label>
+                            <textarea
+                                id="taskDescription"
+                                class="input textarea"
+                                rows="3"
+                                placeholder="Add some details (optional)"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskStatus">Status</label>
+                                <select id="taskStatus" class="input">
+                                    <option value="todo">To Do</option>
+                                    <option value="in-progress">In
+                                        Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskPriority">Priority</label>
+                                <select id="taskPriority" class="input">
+                                    <option value="high">High</option>
+                                    <option value="medium"
+                                        selected>Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskDueDate">Due date</label>
+                                <input type="date" id="taskDueDate"
+                                    class="input" />
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="cancelModalBtn"
+                                class="btn btn-secondary">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Save Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
